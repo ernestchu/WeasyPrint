@@ -321,3 +321,95 @@ def test_image_image_wrong(assert_pixels):
         <image xlink:href="it doesn’t exist, mouhahahaha" />
       </svg>
     ''')
+
+
+@assert_no_logs
+def test_image_in_g(assert_pixels):
+    """Test that an image inside a g element is drawn."""
+    assert_pixels('''
+        rBBB
+        BBBB
+        BBBB
+        BBBB
+    ''', '''
+      <style>
+        @page { size: 4px 4px }
+        svg { display: block }
+      </style>
+      <svg width="4px" height="4px" xmlns="http://www.w3.org/2000/svg">
+        <g>
+          <image xlink:href="%s" />
+        </g>
+      </svg>
+    ''' % path2url(resource_path('pattern.png')))
+
+
+@assert_no_logs
+def test_image_in_g_transform(assert_pixels):
+    """Test that an image inside a g element with transform is drawn."""
+    assert_pixels('''
+        ____rBBB
+        ____BBBB
+        ____BBBB
+        ____BBBB
+        ________
+        ________
+        ________
+        ________
+    ''', '''
+      <style>
+        @page { size: 8px 8px }
+        svg { display: block }
+      </style>
+      <svg width="8px" height="8px" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(4, 0)">
+          <image xlink:href="%s" />
+        </g>
+      </svg>
+    ''' % path2url(resource_path('pattern.png')))
+
+
+@assert_no_logs
+def test_image_in_g_opacity(assert_pixels):
+    """Test that an image inside a g element with opacity is drawn."""
+    # This test checks if g elements properly handle opacity for images
+    assert_pixels('''
+        rBBB
+        BBBB
+        BBBB
+        BBBB
+    ''', '''
+      <style>
+        @page { size: 4px 4px }
+        svg { display: block }
+      </style>
+      <svg width="4px" height="4px" xmlns="http://www.w3.org/2000/svg">
+        <g opacity="0.5">
+          <image xlink:href="%s" />
+        </g>
+      </svg>
+    ''' % path2url(resource_path('pattern.png')))
+
+
+@assert_no_logs
+def test_image_in_g_with_use(assert_pixels):
+    """Test that an image inside a g element referenced via use is drawn."""
+    assert_pixels('''
+        rBBB
+        BBBB
+        BBBB
+        BBBB
+    ''', '''
+      <style>
+        @page { size: 4px 4px }
+        svg { display: block }
+      </style>
+      <svg width="4px" height="4px" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <g id="mygroup">
+            <image xlink:href="%s" />
+          </g>
+        </defs>
+        <use xlink:href="#mygroup" />
+      </svg>
+    ''' % path2url(resource_path('pattern.png')))
