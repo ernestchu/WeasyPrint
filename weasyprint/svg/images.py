@@ -4,6 +4,14 @@ from .bounding_box import bounding_box, is_valid_bounding_box
 from .utils import preserve_ratio
 
 
+def g(svg, node, font_size):
+    """Draw g tags."""
+    # The <g> element is a container element. It doesn't draw anything itself,
+    # but groups other elements together. All attribute handling (transforms,
+    # opacity, etc.) is done by the draw_node function in __init__.py.
+    # This function is here to ensure the tag is properly recognized.
+
+
 def svg(svg, node, font_size):
     """Draw svg tags."""
     x, y = svg.point(node.get('x'), node.get('y'), font_size)
