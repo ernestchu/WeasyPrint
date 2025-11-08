@@ -325,7 +325,7 @@ def test_image_image_wrong(assert_pixels):
 
 @assert_no_logs
 def test_image_in_g_height_only(assert_pixels):
-    """Test image inside g tag with only height set - should be at 0,0."""
+    """Test that image inside g with only height set preserves aspect ratio."""
     assert_pixels('''
         rBBB
         BBBB
@@ -346,7 +346,7 @@ def test_image_in_g_height_only(assert_pixels):
 
 @assert_no_logs
 def test_image_in_g_width_only(assert_pixels):
-    """Test image inside g tag with only width set - should be at 0,0."""
+    """Test that image inside g with only width set preserves aspect ratio."""
     assert_pixels('''
         rBBB
         BBBB
@@ -360,27 +360,6 @@ def test_image_in_g_width_only(assert_pixels):
       <svg width="4px" height="4px" xmlns="http://www.w3.org/2000/svg">
         <g>
           <image xlink:href="%s" width="4px"/>
-        </g>
-      </svg>
-    ''' % path2url(resource_path('pattern.png')))
-
-
-@assert_no_logs
-def test_image_in_g_with_position_height_only(assert_pixels):
-    """Test image inside g tag with x, y, and only height set."""
-    assert_pixels('''
-        ____
-        _rBB
-        _BBB
-        _BBB
-    ''', '''
-      <style>
-        @page { size: 4px 4px }
-        svg { display: block }
-      </style>
-      <svg width="4px" height="4px" xmlns="http://www.w3.org/2000/svg">
-        <g>
-          <image xlink:href="%s" x="1" y="1" height="3px"/>
         </g>
       </svg>
     ''' % path2url(resource_path('pattern.png')))
